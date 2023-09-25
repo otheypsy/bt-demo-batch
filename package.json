@@ -1,0 +1,30 @@
+{
+    "name": "bt-demo-batch",
+    "license": "UNLICENSED",
+    "version": "0.1.0",
+    "description": "Batches to generate payment activity on a Braintree sandbox gateway",
+    "author": {
+        "name": "Omkar Desai",
+        "email": "odesai@paypal.com"
+    },
+    "type": "module",
+    "main": "auto.js",
+    "scripts": {
+        "lint": "eslint ./src",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node manual.js",
+        "startAuto": "node auto.js"
+    },
+    "dependencies": {
+        "braintree": "^3.17.0",
+        "cron": "^2.4.3",
+        "dotenv": "^16.3.1",
+        "node-cron": "^3.0.2"
+    },
+    "devDependencies": {
+        "eslint": "^8.49.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-plugin-prettier": "^5.0.0",
+        "prettier": "^3.0.3"
+    }
+}
