@@ -3,6 +3,7 @@
     "license": "UNLICENSED",
     "version": "0.1.0",
     "description": "Batches to generate payment activity on a Braintree sandbox gateway",
+    "homepage": "https://github.paypal.com/odesai/bt-demo-batch#README",
     "author": {
         "name": "Omkar Desai",
         "email": "odesai@paypal.com"
