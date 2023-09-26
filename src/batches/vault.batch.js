@@ -3,7 +3,7 @@ import { customers } from '../data/customer.data.js'
 import { getRandomNumber, getRandomItems } from '../utils/core.utils.js'
 import { createCustomer, createPaymentMethod, searchCustomers } from '../services/vault.service.js'
 import { euMAIDS, usMAIDS } from '../data/maid.data.js'
-import { usAddresses } from '../data/address.data.js'
+import { usAddresses, euAddresses } from '../data/address.data.js'
 import { createTransaction } from '../services/transaction.service.js'
 
 const vaultBatch = async () => {
