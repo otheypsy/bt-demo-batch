@@ -17,8 +17,8 @@ Batch scripts to generate payment activity on a Braintree sandbox gateway:
 4. Generate SSH Key 
 5. Copy Deploy Key into GitHub 
 6. Install Node
-7Install Node Production Dependencies
-8Setup Cron Job
+7. Install Node Production Dependencies
+8. Setup Cron Job
 
 ### References
 - https://medium.com/@chathula/how-to-set-up-a-ci-cd-pipeline-for-a-node-js-app-with-github-actions-2073201b0df6
