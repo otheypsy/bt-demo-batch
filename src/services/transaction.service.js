@@ -3,7 +3,7 @@ import { gateway } from '../utils/bt.utils.js'
 const createTransaction = async (params) => {
     try {
         const response = await gateway.transaction.sale(params)
-        console.log(response?.transaction?.id || response)
+        // console.log(response?.transaction?.id || response)
         return response?.transaction?.id || false
     } catch (e) {
         console.error('createTransaction', 'Braintree SDK request failed', e)
@@ -36,8 +36,8 @@ const searchTransactionsByStatuses = async (statuses = ['authorized'], daysBack 
 const voidTransaction = async (transactionId) => {
     try {
         const response = await gateway.transaction.void(transactionId)
-        console.log(response?.transaction?.id || response)
-        return true
+        // console.log(response?.transaction?.id || response)
+        return response?.transaction?.id || false
     } catch (e) {
         console.error('voidTransaction', 'Braintree SDK request failed', e)
         return false
@@ -47,8 +47,8 @@ const voidTransaction = async (transactionId) => {
 const settleTransaction = async (transactionId) => {
     try {
         const response = await gateway.transaction.submitForSettlement(transactionId)
-        console.log(response?.transaction?.id || response)
-        return true
+        // console.log(response?.transaction?.id || response)
+        return response?.transaction?.id || false
     } catch (e) {
         console.error('settleTransaction', 'Braintree SDK request failed', e)
         return false
@@ -58,8 +58,8 @@ const settleTransaction = async (transactionId) => {
 const refundTransaction = async (transactionId) => {
     try {
         const response = await gateway.transaction.refund(transactionId)
-        console.log(response?.transaction?.id || response)
-        return true
+        // console.log(response?.transaction?.id || response)
+        return response?.transaction?.id || false
     } catch (e) {
         console.error('refundTransaction', 'Braintree SDK request failed', e)
         return false
