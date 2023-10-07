@@ -3,7 +3,7 @@ import { gateway } from '../utils/bt.utils.js'
 const createCustomer = async (params) => {
     try {
         const response = await gateway.customer.create(params)
-        console.log(response?.customer?.id || response)
+        // console.log(response?.customer?.id || response)
         return response?.customer?.id || false
     } catch (e) {
         console.error('createCustomer', 'Braintree SDK request failed', e)
@@ -14,7 +14,7 @@ const createCustomer = async (params) => {
 const createPaymentMethod = async (params) => {
     try {
         const response = await gateway.paymentMethod.create(params)
-        console.log(response?.paymentMethod?.token || response)
+        // console.log(response?.paymentMethod?.token || response)
         return response?.paymentMethod?.token || false
     } catch (e) {
         console.error('createPaymentMethod', 'Braintree SDK request failed', e)

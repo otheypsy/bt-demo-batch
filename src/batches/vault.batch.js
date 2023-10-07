@@ -7,16 +7,26 @@ import { usAddresses, euAddresses } from '../data/address.data.js'
 import { createTransaction } from '../services/transaction.service.js'
 
 const vaultBatch = async () => {
-    await chargePaymentMethodTokens()
-    await createPaymentMethodTokens()
+
+    let counter = await chargePaymentMethodTokens()
+    console.log(counter + ' tokens charged')
+    counter = await createPaymentMethodTokens()
+    console.log(counter + ' tokens created')
 
     for (const maid of usMAIDS) {
-        await createCustomers(cardNonces, maid, usAddresses)
-        await createCustomers(apmNonces, maid, usAddresses)
+        counter = await createCustomers(cardNonces, maid, usAddresses)
+        console.log(counter + ' customers with cards created through ' + maid)
+        counter = await createCustomers(apmNonces, maid, usAddresses)
+        console.log(counter + ' customers with APMs created through ' + maid)
     }
+
     for (const maid of euMAIDS) {
-        await createCustomers(cardNonces, maid, euAddresses)
+        counter = await createCustomers(cardNonces, maid, euAddresses)
+        console.log(counter + ' customers with cards created through ' + maid)
+        counter = await createCustomers(apmNonces, maid, euAddresses)
+        console.log(counter + ' customers with APMs created through ' + maid)
     }
+
 }
 
 const createCustomers = async (
@@ -24,6 +34,7 @@ const createCustomers = async (
     maid = process.env.BT_DEFAULT_MERCHANT_ACCOUNT_ID,
     addresses = usAddresses,
 ) => {
+    let counter = 0
     for (const nonce of nonces) {
         const customerParams = {
             ...getRandomItems(customers, 1),
@@ -39,14 +50,17 @@ const createCustomers = async (
                     verifyCard: true,
                 },
             }
-            await createPaymentMethod(pmtParams)
+            const response = await createPaymentMethod(pmtParams)
+            if(response !== false) counter++
         }
     }
+    return counter
 }
 
 const chargePaymentMethodTokens = async (maid, addresses) => {
     const customers = await searchCustomers()
-    const chargeCustomers = getRandomItems(customers, customers.length * 0.8)
+    const chargeCustomers = getRandomItems(customers, customers.length * 0.6)
+    let counter = 0
     for (const customer of chargeCustomers) {
         for (const paymentMethod of customer.paymentMethods) {
             const params = {
@@ -59,13 +73,16 @@ const chargePaymentMethodTokens = async (maid, addresses) => {
                     submitForSettlement: true,
                 },
             }
-            await createTransaction(params)
+            const response = await createTransaction(params)
+            if(response !== false) counter++
         }
     }
+    return counter
 }
 
 const createPaymentMethodTokens = async () => {
     const customers = await searchCustomers()
+    let counter = 0
     for (const customer of customers) {
         const params = {
             customerId: customer.id,
@@ -75,8 +92,10 @@ const createPaymentMethodTokens = async () => {
                 verifyCard: true,
             },
         }
-        await createPaymentMethod(params)
+        const response = await createPaymentMethod(params)
+        if(response !== false) counter++
     }
+    return counter
 }
 
 export { vaultBatch }
