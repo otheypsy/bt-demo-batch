@@ -29,11 +29,11 @@ Batch scripts to generate payment activity on a Braintree sandbox gateway:
 - Assign user to sudo group
 - Log in as the user
 
-`
+```
 adduser [username]
 usermod -aG sudo [username]
 sudo su - [username]
-`
+```
 
 ### Git
 
@@ -50,13 +50,13 @@ sudo su - [username]
 `
 nano /path/to/project/.env
 `
-`
+```
 BT_MERCHANT_ID=
 BT_PUBLIC_KEY=
 BT_PRIVATE_KEY=
 BT_TOKENIZATION_KEY=
 BT_DEFAULT_MERCHANT_ACCOUNT_ID=
-`
+```
 
 ### Braintree MAIDs
 
