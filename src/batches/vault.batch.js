@@ -1,3 +1,4 @@
+import { logger } from '../utils/logger.utils.js'
 import { cardNonces, apmNonces } from '../data/nonce.data.js'
 import { customers } from '../data/customer.data.js'
 import { getRandomNumber, getRandomItems } from '../utils/core.utils.js'
@@ -5,29 +6,6 @@ import { createCustomer, createPaymentMethod, searchCustomers } from '../service
 import { euMAIDS, usMAIDS } from '../data/maid.data.js'
 import { usAddresses, euAddresses } from '../data/address.data.js'
 import { createTransaction } from '../services/transaction.service.js'
-
-const vaultBatch = async () => {
-
-    let counter = await chargePaymentMethodTokens()
-    console.log(counter + ' tokens charged')
-    counter = await createPaymentMethodTokens()
-    console.log(counter + ' tokens created')
-
-    for (const maid of usMAIDS) {
-        counter = await createCustomers(cardNonces, maid, usAddresses)
-        console.log(counter + ' customers with cards created through ' + maid)
-        counter = await createCustomers(apmNonces, maid, usAddresses)
-        console.log(counter + ' customers with APMs created through ' + maid)
-    }
-
-    for (const maid of euMAIDS) {
-        counter = await createCustomers(cardNonces, maid, euAddresses)
-        console.log(counter + ' customers with cards created through ' + maid)
-        counter = await createCustomers(apmNonces, maid, euAddresses)
-        console.log(counter + ' customers with APMs created through ' + maid)
-    }
-
-}
 
 const createCustomers = async (
     nonces = [],
@@ -42,7 +20,7 @@ const createCustomers = async (
         const customerId = await createCustomer(customerParams)
         if (customerId) {
             const pmtParams = {
-                customerId: customerId,
+                customerId,
                 paymentMethodNonce: nonce,
                 billingAddress: getRandomItems(addresses, 1),
                 options: {
@@ -65,7 +43,7 @@ const chargePaymentMethodTokens = async (maid, addresses) => {
         for (const paymentMethod of customer.paymentMethods) {
             const params = {
                 amount: getRandomNumber(100, 1000, 2),
-                orderId: 'vault-sale-' + crypto.randomUUID(),
+                orderId: `vault-sale-${crypto.randomUUID()}`,
                 merchantAccountId: maid,
                 paymentMethodToken: paymentMethod.token,
                 shipping: getRandomItems(addresses, 1),
@@ -98,4 +76,28 @@ const createPaymentMethodTokens = async () => {
     return counter
 }
 
+const vaultBatch = async () => {
+
+    let counter = await chargePaymentMethodTokens()
+    logger.info(`${counter} tokens charged`)
+    counter = await createPaymentMethodTokens()
+    logger.info(`${counter} tokens created`)
+
+    for (const maid of usMAIDS) {
+        counter = await createCustomers(cardNonces, maid, usAddresses)
+        logger.info(`${counter} customers with cards created through ${maid}`)
+        counter = await createCustomers(apmNonces, maid, usAddresses)
+        logger.info(`${counter} customers with APMs created through ${maid}`)
+    }
+
+    for (const maid of euMAIDS) {
+        counter = await createCustomers(cardNonces, maid, euAddresses)
+        logger.info(`${counter} customers with cards created through ${maid}`)
+        counter = await createCustomers(apmNonces, maid, euAddresses)
+        logger.info(`${counter} customers with APMs created through ${maid}`)
+    }
+
+}
+
+export default vaultBatch
 export { vaultBatch }

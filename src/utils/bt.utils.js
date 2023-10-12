@@ -1,6 +1,7 @@
 import braintree from 'braintree'
+import { logger } from './logger.utils.js'
 
-let gateway = undefined
+let gateway
 
 const setupSDK = async () => {
     try {
@@ -11,8 +12,10 @@ const setupSDK = async () => {
             privateKey: process.env.BT_PRIVATE_KEY,
         })
     } catch (e) {
-        console.error('Failed to setup SDK instance', e)
+        logger.error('Failed to setup SDK instance', e)
     }
 }
 
-export { setupSDK, gateway }
+const getGateway = () => ({ ...gateway })
+
+export { setupSDK, getGateway  }
