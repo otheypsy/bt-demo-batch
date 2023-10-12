@@ -1,17 +1,20 @@
-import { gateway } from '../utils/bt.utils.js'
+import { logger } from '../utils/logger.utils.js'
+import { getGateway } from '../utils/bt.utils.js'
 
 const createTransaction = async (params) => {
+    const gateway = getGateway()
     try {
         const response = await gateway.transaction.sale(params)
         // console.log(response?.transaction?.id || response)
         return response?.transaction?.id || false
     } catch (e) {
-        console.error('createTransaction', 'Braintree SDK request failed', e)
+        logger.error('createTransaction', 'Braintree SDK request failed', e)
         return false
     }
 }
 
 const searchTransactionsByStatuses = async (statuses = ['authorized'], daysBack = 2) => {
+    const gateway = getGateway()
     const data = []
     return new Promise((resolve) => {
         const today = new Date()
@@ -34,28 +37,31 @@ const searchTransactionsByStatuses = async (statuses = ['authorized'], daysBack 
 }
 
 const voidTransaction = async (transactionId) => {
+    const gateway = getGateway()
     try {
         const response = await gateway.transaction.void(transactionId)
         // console.log(response?.transaction?.id || response)
         return response?.transaction?.id || false
     } catch (e) {
-        console.error('voidTransaction', 'Braintree SDK request failed', e)
+        logger.error('voidTransaction', 'Braintree SDK request failed', e)
         return false
     }
 }
 
 const settleTransaction = async (transactionId) => {
+    const gateway = getGateway()
     try {
         const response = await gateway.transaction.submitForSettlement(transactionId)
         // console.log(response?.transaction?.id || response)
         return response?.transaction?.id || false
     } catch (e) {
-        console.error('settleTransaction', 'Braintree SDK request failed', e)
+        logger.error('settleTransaction', 'Braintree SDK request failed', e)
         return false
     }
 }
 
 const refundTransaction = async (transactionId) => {
+    const gateway = getGateway()
     try {
         const response = await gateway.transaction.refund(transactionId)
         // console.log(response?.transaction?.id || response)

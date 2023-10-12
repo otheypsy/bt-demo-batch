@@ -1,28 +1,32 @@
-import { gateway } from '../utils/bt.utils.js'
+import { logger } from '../utils/logger.utils.js'
+import { getGateway } from '../utils/bt.utils.js'
 
 const createCustomer = async (params) => {
+    const gateway = getGateway()
     try {
         const response = await gateway.customer.create(params)
         // console.log(response?.customer?.id || response)
         return response?.customer?.id || false
     } catch (e) {
-        console.error('createCustomer', 'Braintree SDK request failed', e)
+        logger.error('createCustomer', 'Braintree SDK request failed', e)
         return false
     }
 }
 
 const createPaymentMethod = async (params) => {
+    const gateway = getGateway()
     try {
         const response = await gateway.paymentMethod.create(params)
         // console.log(response?.paymentMethod?.token || response)
         return response?.paymentMethod?.token || false
     } catch (e) {
-        console.error('createPaymentMethod', 'Braintree SDK request failed', e)
+        logger.error('createPaymentMethod', 'Braintree SDK request failed', e)
         return false
     }
 }
 
 const searchCustomers = async (daysBack = 2) => {
+    const gateway = getGateway()
     const data = []
     return new Promise((resolve) => {
         const today = new Date()
