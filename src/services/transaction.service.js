@@ -67,7 +67,7 @@ const refundTransaction = async (transactionId) => {
         // console.log(response?.transaction?.id || response)
         return response?.transaction?.id || false
     } catch (e) {
-        console.error('refundTransaction', 'Braintree SDK request failed', e)
+        logger.error('refundTransaction', 'Braintree SDK request failed', e)
         return false
     }
 }
