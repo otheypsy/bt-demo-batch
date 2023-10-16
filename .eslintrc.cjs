@@ -19,11 +19,6 @@ module.exports = {
 
     extends: [
         'eslint:recommended',
-        'airbnb-base',
         'prettier'
     ],
-
-    rules: {
-        'import/extensions': 'off',
-    },
 }

@@ -29,7 +29,7 @@ const createCustomers = async (
                 },
             }
             const response = await createPaymentMethod(pmtParams)
-            if(response !== false) counter++
+            if(response !== false) counter += 1
         }
     }
     return counter
@@ -52,7 +52,7 @@ const chargePaymentMethodTokens = async (maid, addresses) => {
                 },
             }
             const response = await createTransaction(params)
-            if(response !== false) counter++
+            if(response !== false) counter += 1
         }
     }
     return counter
@@ -71,7 +71,7 @@ const createPaymentMethodTokens = async () => {
             },
         }
         const response = await createPaymentMethod(params)
-        if(response !== false) counter++
+        if(response !== false) counter += 1
     }
     return counter
 }
